@@ -1,56 +1,110 @@
-# Welcome message
+# DATE AT PYTHON PALACE
+
 print("Hello and welcome to Python Palace!")
-user = input("Please enter your name: ")
-dateName = input("Please enter your date's name: ")
-print("Welcome", user , "and", dateName + "!")
 
-# Asking for budget
-print(user + ", please enter your date budget: ")
-budget = input("Date budget: ") #have to make sure this is a integer or float; maybe type cast it
-print("You've inputted", budget, "as your date budget.")
+# User inputs who their date is
+userName = input("What's your name? ")
+dateName = input("Hey "+userName+ ", what's the name of your lucky date? ")
+print(f"Well",userName+" and "+dateName+", we're excited you decided to dine here at Python Palace!")
+print(" ")
 
-# Presenting menu
-print("Here's our menu at Palace:")
+# User inputs date budget
+dateBudget = input("Hey "+userName+", what's your total budget for this date? In US dollars: $")
+print("Your total date budget is $"+dateBudget+". Great!")
+print(" ")
 
-# Taking order -- has to be a loop
-userorder1 = input("What would you like to order (food)?: ")
-dateorder1 = input("What would your date like to order (food): ")
+# Create restaurant menu
+menu = {"lobster": 65.00,
+        "steak": 55.00,
+        "chowder": 25.00,
+        "scampi": 30.00,
+        "cobbler": 17.00,
+        "martini": 15.50}
 
-# Calculating Orders: Here add up prices of both userorder1 and date order1 and subtract from budget
-remaining = 1 + 1
-print("Okay, that sums up to $", remaining,"of your budget remaining.")
-orderMore = input("Would you like to order some more? (y/n): ")
-#if orderMore == y
+# Print restaurant menu
+print(userName+" and "+dateName+", please take a look at our menu:")
+print(" ")
+print(" ~ Python Palace Menu ~ ")
+for x, y in menu.items():
+        print(x, y)
+print("~~~~~~~~~~~~~~~~~~~~~~~~")
+# Empty list to keep track of orders
+mealTab = []
 
-# User and date eating food ordered 
-print("Great! Enjoy your food.")
-# time.sleep(5) # have to import 'time'
+# Empty tab to start        
+totalBill = 0  
+# dateBudget = 80
 
-# Asking user to pay and share meal. 
-print("Hello! I hope you both enjoyed your meal.")
-print(user , ", can you come with me over here?")
-print("...walking")
-payAnswer = input("Will you be paying for this meal? (y/n): ")
+# while budget is over 0 
+while True:
+        order = input("What menu item would you like to order? Type 'x' when you are done with ordering: ") 
+        
+        # If order is in menu
+        if menu.get(order):
+                # add order to tab
+                mealTab.append(order)
+                print(f"Order: ",mealTab)
+                print(f"Price of "+order+": ",menu.get(order))
+                     
+        # If ordering is over
+        elif order == "x":
+                break     
 
-# If they don't pay
-# if payAnswer == n, then
-print("That's alright.", dateName, "has you both covered.")
-print("Unfortunately, however, this will be the last date the two of you share.")
-print("*Mr. Krabs violin*")
+        # elif dateBudget <= 0:
+        #         print("Insufficent funds. Cannot add more items to tab.")
+        #         break
 
-# If they do pay
-# if payAnswer == y
-# then 
-print("Great! Your final bill is: $")
+        # If order is not in menu       
+        else:   
+                print("Item not on menu.")
+                
 
-# If under budget
-print("Oh dear, it looks like you are out of funds. Guess you will have to head to the kitchen and wash dishes.")
-print("And look at that...your date has left!")
+# new empty list for order prices
+prices = []
 
-# If over budget
-print("Looks like you have enough to pay.")
-print("Thanks for eating here at Python Palace. Looks like", dateName, "is interested in a second date!")
+# add each order's price to prices list
+for order in mealTab:
+        if order in menu:
+                prices.append(menu[order])
 
-# If over budgger, but dateOrder is any of the appetizers, user will not get a date.
-print("Looks like you have enough to pay.")
-print("Thanks for eating here at Python Palace. By the way", dateName, "happens to not believe in appetizers and was pretty disappointed you ordered them! They just don't think you two are right for each other. Have a goodnight!")
+# add price of all ordered items
+sumOftab = sum(prices)
+
+print(f"Your total is $",sumOftab)
+remainingBudget = float(dateBudget) - sumOftab
+
+
+
+while True:
+# Asking user if they are paying 
+        payAnswer = input("Will you be paying for this meal? (y/n): ")
+
+# agree to pay
+        if payAnswer == "y":
+                print(f"Your remaining budget is $",remainingBudget)
+
+        # if they spend all but 10 if their dollars, second date 
+                if remainingBudget < 0:
+                        print("Oh dear, it looks like you are out of funds to pay anyway. Guess you will have to head to the kitchen and wash dishes.")
+                        print("And look at that..."+dateName+" has left!")
+                        break
+                
+                elif remainingBudget <= 10:
+                        print("It looks like you have enough funds to pay.")
+                        print("Thanks for eating here at Python Palace. "+dateName+" is flattered you'd almost go broke for them! Looks like they're interested in a second date!")
+                        break
+                # if they have more than 10 dollars to their name after the date, no second date
+                elif remainingBudget >= 10:
+                        print("It looks like you have enough funds to pay.")
+                        print("Thanks for eating here at Python Palace. Unfortunately, "+dateName+" thinks you didn't spend enough. No second date!")
+                        break
+  
+        # don't agree to pay
+        elif payAnswer == "n":
+                print(f"That's alright. ",dateName, "has you both covered.")
+                print("Unfortunately, however, this will be the last date the two of you share.")
+                print("*Mr. Krabs violin*")
+                break
+
+        else: 
+                print("Input not valid. Please enter y or n.")
