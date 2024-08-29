@@ -94,7 +94,7 @@ while True:
                         print("Thanks for eating here at Python Palace. "+dateName+" is flattered you'd almost go broke for them! Looks like they're interested in a second date!")
                         break
                 # if they have more than 10 dollars to their name after the date, no second date
-                elif remainingBudget >= 10:
+                elif remainingBudget > 10:
                         print("It looks like you have enough funds to pay.")
                         print("Thanks for eating here at Python Palace. Unfortunately, "+dateName+" thinks you didn't spend enough. No second date!")
                         break
