@@ -83,7 +83,7 @@ So I rewrote the first if without the 'not' to just say `if menu.get(order):` th
 
 ![image](https://github.com/user-attachments/assets/730e1016-f22c-474b-8c7e-544b054de64c)
 
-To keep track of the price of each item I created a variable called totalBill and set it equal to 0. 
+To keep track of the prices of each item ordered, I created a variable called totalBill and set it equal to 0. 
 
 Then I decided to use a for loop to iterate over the items in the mealTab list since there are a set number of items (or arguments) in mealTab - after the while loop (ordering from the menu section).
 
@@ -167,20 +167,68 @@ This did not fix my duplicate problem and gave me the same output as before. Her
 
 ![image](https://github.com/user-attachments/assets/9852a17c-94f5-4921-bf0a-f6fa3d80c88f)
 
+I knew the issue lied somewhere in my print statements so I revisted those. Finally I realized, that I hadn't fixed my math before, because everytime the foor loop ran, totalBill and dateBudget were getting updated as many times as there were items in the mealTab list. 
 
+mental math again:
+![image](https://github.com/user-attachments/assets/588e7e22-3bc2-4d26-bbe6-f426fed11d27)
 
-I also updated the outer while loop to say while budget >= 0; before it was just dateBudget > 0.
+![image](https://github.com/user-attachments/assets/56f2c1b9-7559-422b-88d6-5ea1d5557725)
 
+I realized here that the first output from ordering just steak was correct and matched my math (totalBill =  55.0; dateBudget =  795.0). However, when I added chowder to the mix, the next output of totalBill was totalBill plus the price of steak again AND plus the price of the chowder. It should only be the price of the chowder is here. So I Realized that I needed to take the addition and subtraction out of the four loops and instead add them up using my mealTab list outside of the for loop. 
 
-So I decided to nest this if statement into another  
+So I took out the nested for loop entirely and had the if statement simply add in the orders to the mealTab list.
 
-Ideally, I'd like the loop to stop allowing additions to the mealTab once there are insufficient funds or when an addition would . but for now I'll keep this version and move on to the rest of the script. 
+Then I tested if I could print the items in my mealTab list outside of the if statement - and I could using either `print(mealTab)` or
+```
+# print each order in list
+for order in mealTab:
+        print(order)
+```
+
+The latter one was better to get an itemized list of my mealTab items. 
+
+Then I needed a way to use the items in mealTab as the "key" in my menu so that I could grab the prices of the items, or the "values."
+
+So I made an for statement: for every order in mealTab, if it exists in the menu, then return the prices. I also needed another list to store the prices in, so I created another empty list called prices. So if the order in mealTab exists in menu, append it to the new prices list. Then I printed out prices to double check and I got the output I wanted. 
+
+![image](https://github.com/user-attachments/assets/8866d03c-b53d-4280-b606-1f8bdb6ffd99)
+
+![image](https://github.com/user-attachments/assets/43291359-8c9d-4eb5-bf35-81b303754670)
+
+or
+code:
+
+![image](https://github.com/user-attachments/assets/40519493-1f10-4232-bac3-6c93180106d2)
+
+output:
+
+![image](https://github.com/user-attachments/assets/d6495d12-bb86-4e0f-9a51-48db4020d451)
+
+Now I needed a way to add all the list prices together. I looked up how to add the values of a list together and found the sum() function. 
+I created a new variable called sumOftab and set it equal to sum(prices). This worked to give me the total.
+
+Moving on to the next step:
 
 ## Asking user to pay bill
 
+Afterwards, I was able to easily display the order total and the user's remaining budget. I put these in print statements and then asked the user for input on if they want to pay for the meal. 
+
+![image](https://github.com/user-attachments/assets/a83425b9-0307-49b8-afff-027b5219dda2)
+![image](https://github.com/user-attachments/assets/027b3dbf-adf7-46af-bd91-925748b2af75)
+
+
+Using an if statement, if they do pay, they get a checkout message. 
+If they say no to paying, they will get a message that the covered the meal and there will be no second date message. Here, I also realized that I should have a check if the user surpassed their remaining budget. So I put that if remaining Budget is greater than zero, move on to the yes or no if statements and else (if the remaining budget is less than 0, print a message that the user has to come and clean the kitchen message. 
+
+I changed my dateBudget to be $80 and tested ordering too much or little to test out my nested if statements and testing worked. 
+
+![image](https://github.com/user-attachments/assets/9b2ca6eb-d3b5-41c6-b191-a615e26c3613)
+
+![image](https://github.com/user-attachments/assets/3e25d6f2-0cba-4e97-8933-9491fbe98736)
 
 -------------------------------------------------------
-
+I also updated the outer while loop to say while budget >= 0; before it was just dateBudget > 0.
+Ideally, I'd like the loop to stop allowing additions to the mealTab once there are insufficient funds or when an addition would . but for now I'll keep this version and move on to the rest of the script. 
 ## Starting with smaller menu
 
 Created a small menu (based off the one we created in a group) to practice with that just had four key value pairs of foods and their corresponding prices.
@@ -192,6 +240,29 @@ Used a for loop to print the keys and values like a menu and added in '$' and '.
 
 ![image](https://github.com/user-attachments/assets/cebf31da-25dd-4a53-af29-07951261bb85)
 
+## Tweaks
+
+At this point, my script was finished, however I was missing two points:
+- The script is supposed to tell the user how much money they have left after each order is made and
+- the user's final budget is shown to them after they agree to pay 
+
+to fix the first issue, I just added in a print statement to print each price from the menu based off the order - right after the print statement for outputting the mealTab list. 
+![image](https://github.com/user-attachments/assets/47685672-724b-47e3-a6ef-601314e00f29)
+
+This successfully printed the price of the latest added item into mealTab.
+
+![image](https://github.com/user-attachments/assets/835d2011-5aa0-43be-bcef-bdbef30d92ee)
+
+
+To fix the latter issue, I moved the print statement of showing the remainingBudget into the if statement that checks if the user's answer is yes. Similarly to my order while loop, I nested this if statement into a while loop so that I could have the "are you paying for the meal?" prompt appear again if a user typed in something other than y or n. 
+
+Then for the **challenge**, I nested another if statement that checks if the user says yes. Here I have if remainingBudget < 10, as in the user only has $10 left of their budget, the date takes that as a compliment of sacrifice and agrees to a second date. if remainingBudget > 10, then the date doesn't think the user spent enough and is not interested in another date. Lastly, I used another elif clause to say if remainingBudget < 0, then they have to go and wash dishes and no second date. 
+
+![image](https://github.com/user-attachments/assets/1cf79c14-df90-4b58-877a-f9e803e9375a)
+
+testing didn't work and I realized I Ran into the same issue as before. I switched the elifs around and had the first if condition check if remainingBudget < 0 instead. Tested out all the different combinations and each print statement worked as intended.
+
+![image](https://github.com/user-attachments/assets/41ddf010-3a98-448c-bdcb-e34f386253f6)
 
 ## Menu
 I updated the menu we made in groups to have a price for each item. 
